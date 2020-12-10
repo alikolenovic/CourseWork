@@ -1,0 +1,36 @@
+CREATE TABLE patient (patientNumber INTEGER,
+			          pname CHAR(40));
+
+CREATE TABLE hospitalRoom (roomNumber INTEGER,
+						   usage CHAR(40));
+
+CREATE TABLE doctor (doctorID INTEGER,
+					 phoneNum CHAR(10),
+					 dname CHAR(20));
+
+CREATE TABLE report (number INTEGER,
+				     date char(10));
+
+CREATE TABLE assigned (patientNumber INTEGER,
+					   roomNumber INTEGER,
+					   PRIMARY KEY (patientNumber),
+					   FOREIGN KEY (patientNumber) REFERENCESS patient,
+					   FOREIGN KEY (roomNumber) REFERENCESS hospitalRoom);
+
+CREATE TABLE treats (doctorID INTEGER,
+					 phoneNum CHAR(10),
+					 patientNumber INTEGER,
+					 PRIMARY KEY (doctorID, phoneNum, patientNumber),
+					 FOREIGN KEY (doctorID) REFERENCESS doctor,
+					 FOREIGN KEY (phoneNum) REFERENCESS doctor,
+					 FOREIGN KEY (patientNumber) REFERENCESS patient);
+
+writes(
+CREATE TABLE writes (doctorID INTEGER,
+					 phoneNum CHAR(10),
+					 number INTEGER,
+					 PRIMARY KEY (doctorID, phoneNum),
+					 FOREIGN KEY (doctorID) REFERENCESS doctor,
+					 FOREIGN KEY (phoneNum) REFERENCESS doctor,
+					 FOREIGN KEY (number) REFERENCESS report);
+					 

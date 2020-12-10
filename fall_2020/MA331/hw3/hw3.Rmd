@@ -1,0 +1,78 @@
+---
+title: "hw3"
+author: "Ali Kolenovic"
+date: "9/29/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# (iv)
+```{r, echo=FALSE}
+mme <- function(gsample) {
+  estimate = (2/length(gsample)) * sum(gsample)
+  return(estimate)
+}
+
+mle <- function(gsample) {
+  estimate = max(gsample)
+  return(estimate)
+}
+
+###################### Step-2: Generate sample ######################
+# theta = 7
+# sample size = 30
+# number of sample = 100
+samples <- matrix(0, nrow = 100, ncol = 30)
+for (i in 1:100) {
+  samples[i,] = runif(n = 30, min = 0, max = 7)
+}
+# If you want reproducible result you have to use "set.seed(some random number)"
+
+##################### Step-3: Finind estimate #######################
+mme_estimate = NULL
+mle_estimate = NULL
+for (i in 1:100) {
+  mme_estimate[i] = mme(gsample = samples[i,])
+  mle_estimate[i] = mle(gsample = samples[i,])
+}
+
+print(mme_estimate)
+print(mle_estimate)
+
+##################### Step-4: Boxplot of estimates and plot sample mean ##########
+# Sample mean of estimates
+mean(mme_estimate)
+mean(mle_estimate)
+# boxplot
+boxplot(mme_estimate, mle_estimate,
+        main = "Boxplot of estimates")
+axis(1, at=1:2, labels=c("MME", "MLE"))
+points(c(mean(mme_estimate), mean(mle_estimate)), col="red", pch = 19)
+```
+
+# (v)
+
+```{r, echo=FALSE}
+# Here the sample sizes are differents
+sizes <- c(20,30,50,100,150)
+mme_estimate1 = NULL
+mle_estimate1 = NULL
+for (i in 1:5) {
+  gsample <- runif(n = sizes[i], min = 0, max = 7)
+  mme_estimate1[i] = mme(gsample)
+  mle_estimate1[i] = mle(gsample)
+}
+plot(mme_estimate1, pch = 19, col = "red",
+     xlab = "Index", ylab = "MME estimates",
+     main = "Plot of MME estimates")
+plot(mle_estimate1, pch = 19, col = "red",
+     xlab = "Index", ylab = "MLE estimates",
+     main = "Plot of MLE estimates")
+plot(mme_estimate1, mle_estimate1, pch = 19, col = "red",
+     xlab = "MME estimates", ylab = "MLE estimates",
+     main = "Plot of MME and MLE estimates")
+```

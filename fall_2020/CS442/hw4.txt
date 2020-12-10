@@ -1,0 +1,51 @@
+1.) SELECT E.ename
+	FROM Emp E NATURAL JOIN Works W NATURAL JOIN Dept D
+	WHERE D.dname='Hardware';
+
+2.) SELECT E.ename
+	FROM Emp E NATURAL JOIN Works W NATURAL JOIN Dept D
+	WHERE D.dname="Hardware" and E.salary = (SELECT MAX(E.salary) 
+                                        FROM Emp E NATURAL JOIN Works W NATURAL JOIN Dept D
+                                        WHERE D.dname="Hardware");
+
+3.) SELECT E.ename, E.age
+	FROM Emp E NATURAL JOIN Works W NATURAL JOIN Dept D
+	WHERE D.dname = 'Hardware' AND EXISTS (SELECT E2.eid
+                                       FROM Emp E2 NATURAL JOIN Works W2 NATURAL JOIN Dept D2
+                                       WHERE D2.dname = 'Software' and E2.eid = W.eid); 
+
+4.) SELECT D.managerid
+	FROM Dept D
+	GROUP BY D.managerid
+	HAVING SUM(D.budget) >= ALL
+    (SELECT SUM(D2.budget)
+     FROM Dept D2
+     GROUP BY D2.managerid);
+
+
+5.) SELECT DISTINCT D.managerid
+	FROM Dept D
+	WHERE 1000000 <= ALL(SELECT D2.budget
+                     FROM Dept D2
+                     WHERE D.managerid = D2.managerid);
+                     
+6.) SELECT E.ename
+	FROM Emp E NATURAL JOIN Works W NATURAL JOIN Dept D
+	WHERE E.salary > ALL(SELECT D2.budget
+                     FROM Dept D2);
+                     
+7.) SELECT DISTINCT E.ename
+	FROM Emp E NATURAL JOIN Works W NATURAL JOIN Dept D
+	WHERE E.eid IN (SELECT D2.managerid
+               FROM Dept D2
+               WHERE D2.budget >= ALL(SELECT D3.budget
+                                      FROM Dept D3));
+
+8.) SELECT AVG(E.salary)
+	FROM Emp E NATURAL JOIN Works W NATURAL JOIN Dept D
+	GROUP BY W.did;
+
+9.) SELECT E.ename
+	FROM Emp E NATURAL JOIN Works W NATURAL JOIN Dept D
+	GROUP BY W.eid, E.ename
+	HAVING COUNT(*) > 3;

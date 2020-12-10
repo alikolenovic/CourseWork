@@ -1,0 +1,136 @@
+---
+title: "hw2"
+author: "Ali Kolenovic"
+date: "9/16/2020"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem 1
+## (i)
+## N = 20, 30, 50, 75, 100, respectively
+```{r, echo = FALSE}
+v1= pbinom(q=8.25, size=20, prob=0.4, lower.tail = T)
+v2= pbinom(q=8.25, size=30, prob=0.4, lower.tail = T)
+v3= pbinom(q=8.25, size=50, prob=0.4, lower.tail = T)
+v4= pbinom(q=8.25, size=75, prob=0.4, lower.tail = T)
+v5= pbinom(q=8.25, size=100, prob=0.4, lower.tail = T)
+
+v = c(v1, v2, v3, v4, v5)
+v
+```
+
+## (ii)
+## N = 20, 30, 50, 75, 100, respectively
+
+```{r, echo=FALSE}
+n = c(20, 30, 50, 75, 100)
+q = pnorm((8.25-0.4*n) / sqrt(0.4*0.6*n))
+q
+```
+## (iii)
+```{r, echo=FALSE}
+x=0:8
+n=c(20,30,50,100)
+p=matrix(0,nrow=4,ncol=9)
+for(i in 1:4)
+{
+  for(j in 1:9)
+  {
+    p[i,j]=choose(n[i],x[j])*(0.4)^x[j]*(1-0.4)^{n[i]-x[j]}
+  }
+}
+t1=sum(p[1,])
+t2=sum(p[2,])
+t3=sum(p[3,])
+t4=sum(p[4,])
+t=c(t1,t2,t3,t4)
+t
+q=pnorm((8.25-0.4*n)/sqrt(0.4*0.6*n))
+q
+plot(n,t-q,lwd=2,col=2,xlab="n",ylab="error")
+```
+
+## (iv)
+
+  The error plots shows that as N gets greater the error decreases, and when N=50 the approximation holds up well
+because the error is low.
+
+## Problem 2
+## (i)
+```{r, echo=FALSE}
+rm(list=ls(all=TRUE))
+P=c() ; Q=c()
+for (i in 1:100) {
+  n = 20
+  X = rnorm(n, 2, 3)
+  P[i] = (mean(X) - 2) / (sqrt(3^2/n))
+  Q[i] = ((n-1)*var(X))/3^2
+}
+par(mfrow=c(1,3))
+plot(density(P))
+plot(density(Q))
+plot(P, Q, main="Scatter Plot")
+```
+
+## (ii)
+```{r, echo=FALSE}
+rm(list=ls(all=TRUE))
+P=c() ; Q=c()
+for (i in 1:100) {
+  n = 30
+  X = rnorm(n, 2, 3)
+  P[i] = (mean(X) - 2) / (sqrt(3^2/n))
+  Q[i] = ((n-1)*var(X))/3^2
+}
+par(mfrow=c(1,3))
+plot(density(P))
+plot(density(Q))
+plot(P, Q, main="Scatter Plot")
+```
+
+## (iii)
+```{r, echo=FALSE}
+rm(list=ls(all=TRUE))
+P=c() ; Q=c()
+for (i in 1:100) {
+  n = 50
+  X = rnorm(n, 2, 3)
+  P[i] = (mean(X) - 2) / (sqrt(3^2/n))
+  Q[i] = ((n-1)*var(X))/3^2
+}
+par(mfrow=c(1,3))
+plot(density(P))
+plot(density(Q))
+plot(P, Q, main="Scatter Plot")
+```
+
+## (iv)
+```{r, echo=FALSE}
+rm(list=ls(all=TRUE))
+P=c() ; Q=c()
+for (i in 1:100) {
+  n = 75
+  X = rnorm(n, 2, 3)
+  P[i] = (mean(X) - 2) / (sqrt(3^2/n))
+  Q[i] = ((n-1)*var(X))/3^2
+}
+par(mfrow=c(1,3))
+plot(density(P))
+plot(density(Q))
+plot(P, Q, main="Scatter Plot")
+```
+
+## (v)
+  The plots of x average - 2 are symmetrical and therefore follows normal distribution.
+  The plots of (n - 1) is right skewed and therefore follows chi square distribution.
+
+## (vi)
+  The scatter plot shows that there is no association between them, therefore they are independently distributed.
+  
